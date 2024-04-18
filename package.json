@@ -9,7 +9,8 @@
     "dev": "pm2 start server.js --name server",
     "stop": "pm2 stop server",
     "delete-old": "pm2 delete server",
-    "nodemon": "nodemon server.js"
+    "nodemon": "nodemon server.js",
+    "start": "node server.js"
   },
   "author": "",
   "license": "ISC",
