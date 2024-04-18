@@ -36,6 +36,9 @@ app.use(`${routerBasePath}/email`, emailRoutes);
 app.use(`${routerBasePath}/auth`, authRoutes);
 app.use(`${routerBasePath}/time`, timeRoutes);
 app.use(`${routerBasePath}/message`, messageRoutes);
+app.use("/", (req, res) => {
+    res.send("Welcome to the API");
+});
 
 
 //* Error Handler
