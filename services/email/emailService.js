@@ -17,7 +17,7 @@ async function sendMail(subject, text, to) {
     var mailOptions = {
         from: "houseofdumplingsapp@gmail.com",
         //! Change
-        to: to || "shahryar2k3@gmail.com",
+        to: to || "houseofdumplingss@gmail.com",
         subject: subject,
         html: text,
     };
