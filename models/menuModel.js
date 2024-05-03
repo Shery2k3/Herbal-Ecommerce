@@ -17,6 +17,14 @@ const itemSchema = new mongoose.Schema({
         type: Number,
         required: true,
     },
+    old_price: {
+        type: Number,
+        required: false,
+    },
+    discount_percentage: {
+        type: Number,
+        required: false,
+    },
     availibility: {
         type: Boolean,
         required: false,
