@@ -1,4 +1,5 @@
 const timeModel = require("../models/timeModel");
+const moment = require("moment-timezone");
 
 module.exports = {
     isOpen: async (req, res, next) => {
@@ -11,16 +12,16 @@ module.exports = {
             }
 
             const currentTime = new Date();
-            const openingTime = new Date();
-            openingTime.setHours(
-                storeTimes.openingTime.split(":")[0],
-                storeTimes.openingTime.split(":")[1]
-            );
-            const closingTime = new Date();
-            closingTime.setHours(
-                storeTimes.closingTime.split(":")[0],
-                storeTimes.closingTime.split(":")[1]
-            );
+            const openingTime = moment().tz("Asia/Karachi").set({
+                hour: storeTimes.openingTime.split(":")[0],
+                minute: storeTimes.openingTime.split(":")[1],
+                second: 0
+            });
+            const closingTime = moment().tz("Asia/Karachi").set({
+                hour: storeTimes.closingTime.split(":")[0],
+                minute: storeTimes.closingTime.split(":")[1],
+                second: 0
+            });
 
             if (closingTime < openingTime) {
                 // If closing time is on the next day
