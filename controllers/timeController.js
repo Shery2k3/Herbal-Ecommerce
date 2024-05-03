@@ -23,10 +23,10 @@ module.exports = {
                 second: 0
             });
 
-            //* Debugging logs
-            console.log("Current Time: ", currentTime.format());
-            console.log("Opening Time: ", openingTime.format());
-            console.log("Closing Time: ", closingTime.format());
+            //* Debugging time logs
+            console.log("Current Time: ", currentTime.toISOString());
+            console.log("Opening Time: ", openingTime.toISOString());
+            console.log("Closing Time: ", closingTime.toISOString());
 
             if (closingTime < openingTime) {
                 // If closing time is on the next day
