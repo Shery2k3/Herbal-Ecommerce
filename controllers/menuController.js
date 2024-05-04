@@ -34,7 +34,9 @@ module.exports = {
     addItem: async (req, res, next) => {
         const { category, image, title, description, price, discount_percentage } = req.body;
         const old_price = price;
-        const new_price = old_price - (old_price * (discount_percentage / 100)); // calculate the new price after applying the discount
+        const new_price = old_price - (old_price * (discount_percentage / 100));
+        const roundedPrice = Math.floor(new_price / 10) * 10 + 9; // round the new price to the nearest 9
+
         try {
             let menu = await Menu.findOne({ category });
     
@@ -43,7 +45,7 @@ module.exports = {
                 menu = new Menu({ category, items: [] });
             }
     
-            menu.items.push({ title, image, description, old_price, price: new_price, discount_percentage });
+            menu.items.push({ title, image, description, old_price, price: roundedPrice, discount_percentage });
             await menu.save();
             res.status(200).json(menu);
         } catch (error) {
@@ -70,7 +72,8 @@ module.exports = {
         */
         const { title, image, description, price, discount_percentage } = req.body;
         const old_price = price;
-        const new_price = old_price - (old_price * (discount_percentage / 100)); // calculate the new price after applying the discount
+        const new_price = old_price - (old_price * (discount_percentage / 100)); 
+        const roundedPrice = Math.floor(new_price / 10) * 10 + 9; // round the new price to the nearest 9
     
         try {
             // Use findByIdAndUpdate to update the specific item
@@ -82,7 +85,7 @@ module.exports = {
                         "items.$[item].image": image,
                         "items.$[item].description": description,
                         "items.$[item].old_price": old_price,
-                        "items.$[item].price": new_price,
+                        "items.$[item].price": roundedPrice,
                         "items.$[item].discount_percentage": discount_percentage,
                     },
                 },
