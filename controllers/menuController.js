@@ -32,16 +32,18 @@ module.exports = {
     },
 
     addItem: async (req, res, next) => {
-        const { category, image, title, description, price } = req.body;
+        const { category, image, title, description, price, discount_percentage } = req.body;
+        const old_price = price;
+        const new_price = old_price - (old_price * (discount_percentage / 100)); // calculate the new price after applying the discount
         try {
             let menu = await Menu.findOne({ category });
-
+    
             //? Creates category if its not present
             if (!menu) {
                 menu = new Menu({ category, items: [] });
             }
-
-            menu.items.push({ title, image, description, price });
+    
+            menu.items.push({ title, image, description, old_price, price: new_price, discount_percentage });
             await menu.save();
             res.status(200).json(menu);
         } catch (error) {
@@ -63,8 +65,13 @@ module.exports = {
     editItem: async (req, res, next) => {
         console.log(req.params);
         const { categoryId, itemId } = req.params;
-        const { title, image, description, price } = req.body;
-
+        /*
+         "price" in req.body is the old price of the item, new price will be calculated after applying the discount. 
+        */
+        const { title, image, description, price, discount_percentage } = req.body;
+        const old_price = price;
+        const new_price = old_price - (old_price * (discount_percentage / 100)); // calculate the new price after applying the discount
+    
         try {
             // Use findByIdAndUpdate to update the specific item
             const updatedCategory = await Menu.findByIdAndUpdate(
@@ -74,7 +81,9 @@ module.exports = {
                         "items.$[item].title": title,
                         "items.$[item].image": image,
                         "items.$[item].description": description,
-                        "items.$[item].price": price,
+                        "items.$[item].old_price": old_price,
+                        "items.$[item].price": new_price,
+                        "items.$[item].discount_percentage": discount_percentage,
                     },
                 },
                 {
@@ -82,11 +91,11 @@ module.exports = {
                     new: true, // Return the updated document
                 }
             );
-
+    
             if (!updatedCategory) {
                 return res.status(404).json({ message: "Category not found" });
             }
-
+    
             res.status(200).json(updatedCategory);
         } catch (error) {
             console.log(error);
