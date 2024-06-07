@@ -1,6 +1,11 @@
 const mongoose = require("mongoose");
 
 const timeSchema = new mongoose.Schema({
+    branch: {
+        type: String,
+        required: true
+    },
+    
     openingTime: {
         type: String,
         required: true
