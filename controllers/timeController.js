@@ -55,20 +55,27 @@ module.exports = {
     isOpenArea: async (req, res, next) => {
         try {
             let { area } = req.params;
+            area = area.split(',')[0].trim();
+
+
             let branchName;
 
             const deliveryArea = await deliveryModel.findOne({ value: new RegExp(`^${area}$`, 'i') });
+
             if (!deliveryArea) {
                 return res.status(404).json({ message: "Area not found" });
             }
 
-            branchName = deliveryArea.branch;
-
-            const storeTimes = await timeModel.findOne({ branch: new RegExp(`^${branchName}$`, 'i') });
-            if (!storeTimes) {
-                return res.status(404).json({ message: "Branch not found" });
+            if (!deliveryArea.branch) {
+                branchName = "global";
             }
+            else {
+                branchName = deliveryArea.branch;
+            }
+            
+            const storeTimes = await timeModel.findOne({ branch: new RegExp(`^${branchName}$`, 'i') });
 
+            console.log(branchName);
             const currentTime = new Date();
             const openingTime = moment().tz("Asia/Karachi").set({
                 hour: storeTimes.openingTime.split(":")[0],
