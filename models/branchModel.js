@@ -14,7 +14,12 @@ const timeSchema = new mongoose.Schema({
     closingTime: {
         type: String,
         required: true
-    }
+    },
+
+    email: {
+        type: String,
+        required: true
+    },
 });
 
 const timeModel = mongoose.model("Time", timeSchema, "Time");
