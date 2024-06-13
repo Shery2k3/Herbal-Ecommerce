@@ -9,7 +9,7 @@ const staticRoutes = require("./routes/staticRoutes");
 const connectDB = require("./config/db");
 const emailRoutes = require("./routes/emailRoutes");
 const authRoutes = require("./routes/authRoutes");
-const timeRoutes = require("./routes/timeRoutes");
+const branchRoutes = require("./routes/branchRoutes");
 const messageRoutes = require("./routes/messageRoutes");
 const ora = require("ora");
 
@@ -34,7 +34,8 @@ app.use(`${routerBasePath}/checkout`, checkoutRoutes);
 app.use(`${routerBasePath}/image`, staticRoutes);
 app.use(`${routerBasePath}/email`, emailRoutes);
 app.use(`${routerBasePath}/auth`, authRoutes);
-app.use(`${routerBasePath}/time`, timeRoutes);
+app.use(`${routerBasePath}/time`, branchRoutes);
+app.use(`${routerBasePath}/branch`, branchRoutes);
 app.use(`${routerBasePath}/message`, messageRoutes);
 app.use("/", (req, res) => {
     res.send("Welcome to the API");

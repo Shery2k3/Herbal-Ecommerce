@@ -1,11 +1,11 @@
-const timeModel = require("../models/timeModel");
+const branchModel = require("../models/branchModel");
 const deliveryModel = require("../models/deliveryModel");
 const moment = require("moment-timezone");
 
 module.exports = {
     isOpen: async (req, res, next) => {
         try {
-            const storeTimes = await timeModel.findOne({
+            const storeTimes = await branchModel.findOne({
                 branch: "global"
             });
             if (!storeTimes) {
@@ -72,8 +72,8 @@ module.exports = {
             else {
                 branchName = deliveryArea.branch;
             }
-            
-            const storeTimes = await timeModel.findOne({ branch: new RegExp(`^${branchName}$`, 'i') });
+
+            const storeTimes = await branchModel.findOne({ branch: new RegExp(`^${branchName}$`, 'i') });
 
             console.log(branchName);
             const currentTime = new Date();
@@ -117,11 +117,40 @@ module.exports = {
     create: async (req, res, next) => {
         try {
             const body = req.body;
-            const response = await timeModel.create(body);
+            const response = await branchModel.create(body);
             res.status(201).json(response);
         } catch (error) {
             console.log(error);
             res.status(500).json({ message: error.message });
         }
     },
+
+    update: async (req, res, next) => {
+        try {
+            const { id } = req.params;
+            const body = req.body;
+            const response = await branchModel.findByIdAndUpdate(id, body, { new: true });
+            if (!response) {
+                return res.status(404).json({ message: "Branch not found" });
+            }
+            res.status(200).json(response);
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({ message: error.message });
+        }
+    },
+
+    delete: async (req, res, next) => {
+        try {
+            const { id } = req.params;
+            const response = await branchModel.findByIdAndDelete(id);
+            if (!response) {
+                return res.status(404).json({ message: "Branch not found" });
+            }
+            res.status(200).json({ message: "Branch deleted successfully" });
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({ message: error.message });
+        }
+    }
 };
