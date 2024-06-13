@@ -7,7 +7,7 @@ router.get('/isOpen', branchController.isOpen);
 router.get('/all', branchController.getAll);
 router.get('/branches', branchController.getBranches);
 router.post('/create', branchController.create);
-router.put('/edit/:id', branchController.update);
-router.delete('/delete/:id', branchController.delete);
+router.put('/edit/:branch', branchController.update);
+router.delete('/delete/:branch', branchController.delete);
 
 module.exports = router;

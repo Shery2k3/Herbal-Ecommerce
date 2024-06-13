@@ -127,9 +127,9 @@ module.exports = {
 
     update: async (req, res, next) => {
         try {
-            const { id } = req.params;
+            const { branch } = req.params;
             const body = req.body;
-            const response = await branchModel.findByIdAndUpdate(id, body, { new: true });
+            const response = await branchModel.findOneAndUpdate({branch: branch}, body, { new: true });
             if (!response) {
                 return res.status(404).json({ message: "Branch not found" });
             }
@@ -139,11 +139,11 @@ module.exports = {
             res.status(500).json({ message: error.message });
         }
     },
-
+    
     delete: async (req, res, next) => {
         try {
-            const { id } = req.params;
-            const response = await branchModel.findByIdAndDelete(id);
+            const { branch } = req.params;
+            const response = await branchModel.findOneAndDelete({branch: branch});
             if (!response) {
                 return res.status(404).json({ message: "Branch not found" });
             }
@@ -153,7 +153,7 @@ module.exports = {
             res.status(500).json({ message: error.message });
         }
     },
-    
+
     getBranches: async (req, res, next) => {
         try {
             const branches = await branchModel.find({}, 'branch');
