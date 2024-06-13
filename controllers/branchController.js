@@ -117,6 +117,10 @@ module.exports = {
     create: async (req, res, next) => {
         try {
             const body = req.body;
+            const existingBranch = await branchModel.findOne({ branch: body.branch });
+            if (existingBranch) {
+                return res.status(400).json({ message: "Branch name already exists" });
+            }
             const response = await branchModel.create(body);
             res.status(201).json(response);
         } catch (error) {
@@ -124,11 +128,15 @@ module.exports = {
             res.status(500).json({ message: error.message });
         }
     },
-
+    
     update: async (req, res, next) => {
         try {
             const { branch } = req.params;
             const body = req.body;
+            const existingBranch = await branchModel.findOne({ branch: body.branch });
+            if (existingBranch && existingBranch.branch !== branch) {
+                return res.status(400).json({ message: "Branch name already exists" });
+            }
             const response = await branchModel.findOneAndUpdate({branch: branch}, body, { new: true });
             if (!response) {
                 return res.status(404).json({ message: "Branch not found" });
