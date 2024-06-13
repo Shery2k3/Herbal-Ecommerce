@@ -152,5 +152,26 @@ module.exports = {
             console.log(error);
             res.status(500).json({ message: error.message });
         }
+    },
+    
+    getBranches: async (req, res, next) => {
+        try {
+            const branches = await branchModel.find({}, 'branch');
+            const branchNames = branches.map(branch => branch.branch);
+            res.status(200).json(branchNames);
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({ message: error.message });
+        }
+    },
+    
+    getAll: async (req, res, next) => {
+        try {
+            const branches = await branchModel.find({});
+            res.status(200).json(branches);
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({ message: error.message });
+        }
     }
 };

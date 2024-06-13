@@ -4,6 +4,8 @@ const branchController = require('../controllers/branchController');
 
 router.get('/isOpen/:area', branchController.isOpenArea);
 router.get('/isOpen', branchController.isOpen);
+router.get('/all', branchController.getAll);
+router.get('/branches', branchController.getBranches);
 router.post('/create', branchController.create);
 router.put('/edit/:id', branchController.update);
 router.delete('/delete/:id', branchController.delete);
