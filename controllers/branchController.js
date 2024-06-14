@@ -14,33 +14,25 @@ module.exports = {
                     .json({ message: "Store times not found" });
             }
 
-            const currentTime = new Date();
-            const openingTime = moment().tz("Asia/Karachi").set({
-                hour: storeTimes.openingTime.split(":")[0],
-                minute: storeTimes.openingTime.split(":")[1],
-                second: 0
-            });
-            const closingTime = moment().tz("Asia/Karachi").set({
-                hour: storeTimes.closingTime.split(":")[0],
-                minute: storeTimes.closingTime.split(":")[1],
-                second: 0
-            });
+            const currentTime = moment().tz("Asia/Karachi");
+            const openingTime = moment(storeTimes.openingTime).tz("Asia/Karachi");
+            const closingTime = moment(storeTimes.closingTime).tz("Asia/Karachi");
 
             //* Debugging time logs
             console.log("Current Time: ", currentTime.toISOString());
             console.log("Opening Time: ", openingTime.toISOString());
             console.log("Closing Time: ", closingTime.toISOString());
 
-            if (closingTime < openingTime) {
+            if (closingTime.isBefore(openingTime)) {
                 // If closing time is on the next day
-                if (currentTime < closingTime || currentTime >= openingTime) {
+                if (currentTime.isBefore(closingTime) || currentTime.isSameOrAfter(openingTime)) {
                     return res.status(200).json({ isOpen: true });
                 } else {
                     return res.status(200).json({ isOpen: false });
                 }
             } else {
                 // If closing time is on the same day
-                if (currentTime >= openingTime && currentTime <= closingTime) {
+                if (currentTime.isSameOrAfter(openingTime) && currentTime.isSameOrBefore(closingTime)) {
                     return res.status(200).json({ isOpen: true });
                 } else {
                     return res.status(200).json({ isOpen: false });
@@ -57,7 +49,6 @@ module.exports = {
             let { area } = req.params;
             area = area.split(',')[0].trim();
 
-
             let branchName;
 
             const deliveryArea = await deliveryModel.findOne({ value: new RegExp(`^${area}$`, 'i') });
@@ -73,36 +64,33 @@ module.exports = {
                 branchName = deliveryArea.branch;
             }
 
-            const storeTimes = await branchModel.findOne({ branch: new RegExp(`^${branchName}$`, 'i') });
+            let storeTimes = await branchModel.findOne({ branch: new RegExp(`^${branchName}$`, 'i') });
+
+            // If openingTime or closingTime for the specific branch are not found, use the global branch's store times
+            if (!storeTimes || !storeTimes.openingTime || !storeTimes.closingTime) {
+                storeTimes = await branchModel.findOne({ branch: "global" });
+            }
 
             console.log(branchName);
-            const currentTime = new Date();
-            const openingTime = moment().tz("Asia/Karachi").set({
-                hour: storeTimes.openingTime.split(":")[0],
-                minute: storeTimes.openingTime.split(":")[1],
-                second: 0
-            });
-            const closingTime = moment().tz("Asia/Karachi").set({
-                hour: storeTimes.closingTime.split(":")[0],
-                minute: storeTimes.closingTime.split(":")[1],
-                second: 0
-            });
+            const currentTime = moment().tz("Asia/Karachi");
+            const openingTime = moment(storeTimes.openingTime).tz("Asia/Karachi");
+            const closingTime = moment(storeTimes.closingTime).tz("Asia/Karachi");
 
             //* Debugging time logs
             console.log("Current Time: ", currentTime.toISOString());
             console.log("Opening Time: ", openingTime.toISOString());
             console.log("Closing Time: ", closingTime.toISOString());
 
-            if (closingTime < openingTime) {
+            if (closingTime.isBefore(openingTime)) {
                 // If closing time is on the next day
-                if (currentTime < closingTime || currentTime >= openingTime) {
+                if (currentTime.isBefore(closingTime) || currentTime.isSameOrAfter(openingTime)) {
                     return res.status(200).json({ isOpen: true });
                 } else {
                     return res.status(200).json({ isOpen: false });
                 }
             } else {
                 // If closing time is on the same day
-                if (currentTime >= openingTime && currentTime <= closingTime) {
+                if (currentTime.isSameOrAfter(openingTime) && currentTime.isSameOrBefore(closingTime)) {
                     return res.status(200).json({ isOpen: true });
                 } else {
                     return res.status(200).json({ isOpen: false });
@@ -128,7 +116,7 @@ module.exports = {
             res.status(500).json({ message: error.message });
         }
     },
-    
+
     update: async (req, res, next) => {
         try {
             const { branch } = req.params;
@@ -137,7 +125,7 @@ module.exports = {
             if (existingBranch && existingBranch.branch !== branch) {
                 return res.status(400).json({ message: "Branch name already exists" });
             }
-            const response = await branchModel.findOneAndUpdate({branch: branch}, body, { new: true });
+            const response = await branchModel.findOneAndUpdate({ branch: branch }, body, { new: true });
             if (!response) {
                 return res.status(404).json({ message: "Branch not found" });
             }
@@ -147,11 +135,11 @@ module.exports = {
             res.status(500).json({ message: error.message });
         }
     },
-    
+
     delete: async (req, res, next) => {
         try {
             const { branch } = req.params;
-            const response = await branchModel.findOneAndDelete({branch: branch});
+            const response = await branchModel.findOneAndDelete({ branch: branch });
             if (!response) {
                 return res.status(404).json({ message: "Branch not found" });
             }
@@ -172,7 +160,7 @@ module.exports = {
             res.status(500).json({ message: error.message });
         }
     },
-    
+
     getAll: async (req, res, next) => {
         try {
             const branches = await branchModel.find({});
