@@ -169,5 +169,43 @@ module.exports = {
             console.log(error);
             res.status(500).json({ message: error.message });
         }
+    },
+
+    getEmail: async (req, res, next) => {
+        try {
+            let { area } = req.params;
+            area = area.split(',')[0].trim();
+    
+            let branchName;
+    
+            const deliveryArea = await deliveryModel.findOne({ value: new RegExp(`^${area}$`, 'i') });
+    
+            if (!deliveryArea) {
+                return res.status(404).json({ message: "Area not found" });
+            }
+    
+            if (!deliveryArea.branch) {
+                branchName = "global";
+            }
+            else {
+                branchName = deliveryArea.branch;
+            }
+    
+            let branchDetails = await branchModel.findOne({ branch: new RegExp(`^${branchName}$`, 'i') });
+    
+            // If email for the specific branch is not found, use the global branch's email
+            if (!branchDetails || !branchDetails.email) {
+                branchDetails = await branchModel.findOne({ branch: "global" });
+            }
+    
+            if (!branchDetails || !branchDetails.email) {
+                return res.status(404).json({ message: "Email not found" });
+            }
+    
+            return res.status(200).json({ email: branchDetails.email });
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({ message: error.message });
+        }
     }
 };

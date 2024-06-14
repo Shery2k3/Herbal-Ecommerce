@@ -9,5 +9,6 @@ router.get('/branches', branchController.getBranches);
 router.post('/create', branchController.create);
 router.put('/edit/:branch', branchController.update);
 router.delete('/delete/:branch', branchController.delete);
+router.get('/email/:area', branchController.getEmail);
 
 module.exports = router;
