@@ -134,7 +134,9 @@ module.exports = {
     isOpenArea: async (req, res, next) => {
         try {
             let { area } = req.params;
+            console.log("Area before split: ", area);
             area = area.split(',')[0].trim();
+            console.log("Area after split: ", area);
 
             let branchName;
 
