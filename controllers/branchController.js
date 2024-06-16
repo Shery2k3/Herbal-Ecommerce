@@ -135,57 +135,48 @@ module.exports = {
         try {
             let { area } = req.params;
             area = area.split(',')[0].trim();
-    
+
             let branchName;
-    
+
             const deliveryArea = await deliveryModel.findOne({ value: new RegExp(`^${area}$`, 'i') });
-    
+
             if (!deliveryArea) {
                 return res.status(404).json({ message: "Area not found" });
             }
-    
+
             if (!deliveryArea.branch) {
                 branchName = "global";
             }
             else {
                 branchName = deliveryArea.branch;
             }
-    
+
             let storeTimes = await branchModel.findOne({ branch: new RegExp(`^${branchName}$`, 'i') });
-    
+
             // If openingTime or closingTime for the specific branch are not found, use the global branch's store times
             if (!storeTimes || !storeTimes.openingTime || !storeTimes.closingTime) {
                 storeTimes = await branchModel.findOne({ branch: "global" });
             }
-    
+
             console.log(branchName);
             const currentTime = moment().utc();
-            const openingTime = moment.utc(storeTimes.openingTime);
-            const closingTime = moment.utc(storeTimes.closingTime);
-    
-            //* Debugging time logs
+            const openingTime = moment.utc(storeTimes.openingTime).set({ year: currentTime.year(), month: currentTime.month(), date: currentTime.date() });
+            const closingTime = moment.utc(storeTimes.closingTime).set({ year: currentTime.year(), month: currentTime.month(), date: currentTime.date() });
+
             console.log("Current Time: ", currentTime.format());
             console.log("Opening Time: ", openingTime.format());
             console.log("Closing Time: ", closingTime.format());
-    
+
             if (closingTime.isBefore(openingTime)) {
-                // If closing time is on the next day
-                if (currentTime.isBefore(closingTime.add(1, 'days')) && currentTime.isSameOrAfter(openingTime)) {
-                    console.log("isOpen: true");
-                    return res.status(200).json({ isOpen: true });
-                } else {
-                    console.log("isOpen: false");
-                    return res.status(200).json({ isOpen: false });
-                }
+                closingTime.add(1, 'days');
+            }
+
+            if (currentTime.isSameOrAfter(openingTime) && currentTime.isBefore(closingTime)) {
+                console.log("isOpen: true");
+                return res.status(200).json({ isOpen: true });
             } else {
-                // If closing time is on the same day
-                if (currentTime.isSameOrAfter(openingTime) && currentTime.isSameOrBefore(closingTime)) {
-                    console.log("isOpen: true");
-                    return res.status(200).json({ isOpen: true });
-                } else {
-                    console.log("isOpen: false");
-                    return res.status(200).json({ isOpen: false });
-                }
+                console.log("isOpen: false");
+                return res.status(200).json({ isOpen: false });
             }
         } catch (error) {
             console.log(error);
@@ -266,33 +257,33 @@ module.exports = {
         try {
             let { area } = req.params;
             area = area.split(',')[0].trim();
-    
+
             let branchName;
-    
+
             const deliveryArea = await deliveryModel.findOne({ value: new RegExp(`^${area}$`, 'i') });
-    
+
             if (!deliveryArea) {
                 return res.status(404).json({ message: "Area not found" });
             }
-    
+
             if (!deliveryArea.branch) {
                 branchName = "global";
             }
             else {
                 branchName = deliveryArea.branch;
             }
-    
+
             let branchDetails = await branchModel.findOne({ branch: new RegExp(`^${branchName}$`, 'i') });
-    
+
             // If email for the specific branch is not found, use the global branch's email
             if (!branchDetails || !branchDetails.email) {
                 branchDetails = await branchModel.findOne({ branch: "global" });
             }
-    
+
             if (!branchDetails || !branchDetails.email) {
                 return res.status(404).json({ message: "Email not found" });
             }
-    
+
             return res.status(200).json({ email: branchDetails.email });
         } catch (error) {
             console.log(error);
