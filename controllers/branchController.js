@@ -81,18 +81,41 @@ module.exports = {
             console.log("Opening Time: ", openingTime.toISOString());
             console.log("Closing Time: ", closingTime.toISOString());
 
+            // if (closingTime.isBefore(openingTime)) {
+            //     // If closing time is on the next day
+            //     if (currentTime.isBefore(closingTime) || currentTime.isSameOrAfter(openingTime)) {
+            //         console.log("isOpen: true");
+            //         return res.status(200).json({ isOpen: true });
+            //     } else {
+            //         console.log("isOpen: false");
+            //         return res.status(200).json({ isOpen: false });
+            //     }
+            // } else {
+            //     // If closing time is on the same day
+            //     if (currentTime.isSameOrAfter(openingTime) && currentTime.isSameOrBefore(closingTime)) {
+            //         console.log("isOpen: true");
+            //         return res.status(200).json({ isOpen: true });
+            //     } else {
+            //         console.log("isOpen: false");
+            //         return res.status(200).json({ isOpen: false });
+            //     }
+            // }
             if (closingTime.isBefore(openingTime)) {
                 // If closing time is on the next day
-                if (currentTime.isBefore(closingTime) || currentTime.isSameOrAfter(openingTime)) {
+                if (currentTime.isBefore(closingTime.add(1, 'days')) && currentTime.isSameOrAfter(openingTime)) {
+                    console.log("isOpen: true");
                     return res.status(200).json({ isOpen: true });
                 } else {
+                    console.log("isOpen: false");
                     return res.status(200).json({ isOpen: false });
                 }
             } else {
                 // If closing time is on the same day
                 if (currentTime.isSameOrAfter(openingTime) && currentTime.isSameOrBefore(closingTime)) {
+                    console.log("isOpen: true");
                     return res.status(200).json({ isOpen: true });
                 } else {
+                    console.log("isOpen: false");
                     return res.status(200).json({ isOpen: false });
                 }
             }
