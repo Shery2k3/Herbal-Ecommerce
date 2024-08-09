@@ -6,10 +6,10 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "server": "node server.js",
-    "dev": "pm2 start server.js --name server",
+    "dev": "nodemon server.js",
     "stop": "pm2 stop server",
     "delete-old": "pm2 delete server",
-    "nodemon": "nodemon server.js",
+    "pm2": "pm2 start server.js --name server",
     "start": "node server.js"
   },
   "author": "",

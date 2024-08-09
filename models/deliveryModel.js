@@ -31,6 +31,10 @@ const locationSchema = new mongoose.Schema({
             return !this.children || this.children.length === 0;
         },
     },
+    branch: {
+        type: String,
+        required: false,
+    },
 });
 const Delivery = mongoose.model("Delivery", locationSchema, "Delivery");
 

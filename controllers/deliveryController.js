@@ -15,6 +15,7 @@ module.exports = {
     },
     createLocation: async (req, res, next) => {
         try {
+            //? Duplicating value to label
             req.body.label = req.body.value;
             const location = await deliveryModel.create(req.body);
             res.status(201).json(location);
