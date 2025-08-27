@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const Branches = require("../models/branchModel"); // Ensure this path is correct
 
 const MONGO_URI =
-    "mongodb+srv://shahryar2k3:shahryar2k3@hod-test.flkqhwx.mongodb.net/?retryWrites=true&w=majority&appName=HoD-test";
+    "MONGO_URI";
 
 const migrateData = async () => {
     try {
