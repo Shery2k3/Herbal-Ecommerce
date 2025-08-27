@@ -77,7 +77,7 @@ exports.getBranchesWithAreasByCityId = async (req, res) => {
         const cityId = req.params.id;
 
         // Find all branches for the given cityId
-        const branches = await Branch.find({ cityId: cityId });
+        const branches = await Branch.find({ city: cityId });
 
         if (!branches || branches.length === 0) {
             return res.status(404).json({ message: "No branches found for this city" });
@@ -85,10 +85,15 @@ exports.getBranchesWithAreasByCityId = async (req, res) => {
 
         // For each branch, find matching areas from deliveryModel
         const result = await Promise.all(branches.map(async (branch) => {
-            const areas = await Delivery.find({ branch: branch.branch }, { value: 1 });  // Get area values (value field)
+            const areas = await Delivery.find({ branch: branch.branch }, { value: 1, children: 1, charges: 1, label: 1 });  // Get area values (value field)
             return {
                 branch: branch.branch,
-                areas: areas.map(area => area.value)  // Extract array of area values
+                areas: areas.map(area => ({
+                    value: area.value,
+                    children: area.children || [],
+                    charges: area.charges,
+                    label: area.label
+                })) 
             };
         }));
 
@@ -97,5 +102,3 @@ exports.getBranchesWithAreasByCityId = async (req, res) => {
         res.status(500).json({ message: "Server Error", error: error.message });
     }
 };
-
-// Get Bracnhes by City ID
