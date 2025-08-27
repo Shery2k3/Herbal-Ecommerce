@@ -11,6 +11,7 @@ const emailRoutes = require("./routes/emailRoutes");
 const authRoutes = require("./routes/authRoutes");
 const branchRoutes = require("./routes/branchRoutes");
 const messageRoutes = require("./routes/messageRoutes");
+const menuRoutesv2 = require("./routes/v2/menuRoutes");
 const ora = require("ora");
 
 const port = process.env.PORT || 3000;
@@ -25,22 +26,21 @@ app.use(express.urlencoded({ extended: true, limit: "100mb" }));
 app.use(cors());
 
 //* Routes
-const routerBasePath = process.env.ROUTER_BASE_PATH || '';
 
-app.use(`${routerBasePath}/menu`, menuRoutes);
-app.use(`${routerBasePath}/delivery`, deliveryRoutes);
-app.use(`${routerBasePath}/blog`, blogRoutes);
-app.use(`${routerBasePath}/checkout`, checkoutRoutes);
-app.use(`${routerBasePath}/image`, staticRoutes);
-app.use(`${routerBasePath}/email`, emailRoutes);
-app.use(`${routerBasePath}/auth`, authRoutes);
-app.use(`${routerBasePath}/time`, branchRoutes);
-app.use(`${routerBasePath}/branch`, branchRoutes);
-app.use(`${routerBasePath}/message`, messageRoutes);
+app.use(`/menu`, menuRoutes);
+app.use(`/delivery`, deliveryRoutes);
+app.use(`/blog`, blogRoutes);
+app.use(`/checkout`, checkoutRoutes);
+app.use(`/image`, staticRoutes);
+app.use(`/email`, emailRoutes);
+app.use(`/auth`, authRoutes);
+app.use(`/time`, branchRoutes);
+app.use(`/branch`, branchRoutes);
+app.use(`/message`, messageRoutes);
+app.use(`/v2/menu`, menuRoutesv2);
 app.use("/", (req, res) => {
     res.send("Welcome to the API");
 });
-
 
 //* Error Handler
 app.use((err, req, res, next) => {
@@ -72,6 +72,5 @@ startServer();
 //? Error handler
 //? Menu dynamic category ordering
 //? Helmet
-
 
 //Run

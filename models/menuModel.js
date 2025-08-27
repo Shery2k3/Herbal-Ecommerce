@@ -28,25 +28,28 @@ const itemSchema = new mongoose.Schema({
     availibility: {
         type: Boolean,
         required: false,
-        default: true
-    }
-})
-
+        default: true,
+    },
+});
 
 const categorySchema = new mongoose.Schema({
     category: {
         type: String,
-        required: true
+        required: true,
     },
     items: {
         type: [itemSchema],
-        required: true
+        required: true,
     },
     order: {
         type: Number,
-        required: false
-    }
-})
+        required: false,
+    },
+    city: {
+        type: String,
+        required: true,
+    },
+});
 
 const Menu = mongoose.model("Menu", categorySchema, "Menu");
 module.exports = Menu;

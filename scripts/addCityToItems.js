@@ -1,0 +1,37 @@
+const mongoose = require("mongoose");
+const Menu = require("../models/menuModel"); // Ensure this path is correct
+
+const MONGO_URI =
+    "mongodb+srv://shahryar2k3:shahryar2k3@hod-test.flkqhwx.mongodb.net/?retryWrites=true&w=majority&appName=HoD-test";
+
+const migrateData = async () => {
+    try {
+        await mongoose.connect(MONGO_URI);
+        console.log(
+            `Database '${mongoose.connection.db.databaseName}' connected successfully. Sending update command...`
+        );
+
+        // A single, powerful command to update all categories
+        const result = await Menu.updateMany(
+            { city: { $exists: false } }, // The Query: Find all categories that don't have a city
+            { $set: { city: "Karachi" } } // The Update: Set the city field to "Karachi"
+        );
+
+        console.log("\n----------------------------------------");
+        console.log("Migration Command Sent!");
+        console.log(
+            `Matched ${result.matchedCount} categories that needed a city.`
+        );
+        console.log(`Modified ${result.modifiedCount} categories.`);
+        console.log("----------------------------------------");
+    } catch (error) {
+        console.error("An error occurred during migration:", error);
+    } finally {
+        if (mongoose.connection.readyState === 1) {
+            await mongoose.disconnect();
+            console.log("Database disconnected.");
+        }
+    }
+};
+
+migrateData();
