@@ -1,8 +1,8 @@
 const mongoose = require("mongoose");
 const Branches = require("../models/branchModel"); // Ensure this path is correct
+require("dotenv").config();
 
-const MONGO_URI =
-    "MONGO_URI";
+const MONGO_URI = process.env.TEST_URI;
 
 const migrateData = async () => {
     try {

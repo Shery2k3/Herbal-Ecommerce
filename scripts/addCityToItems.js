@@ -1,8 +1,8 @@
 const mongoose = require("mongoose");
 const Menu = require("../models/menuModel"); // Ensure this path is correct
+require("dotenv").config();
 
-const MONGO_URI =
-    "mongodb+srv://shahryar2k3:shahryar2k3@hod-test.flkqhwx.mongodb.net/?retryWrites=true&w=majority&appName=HoD-test";
+const MONGO_URI = process.env.TEST_URI;
 
 const migrateData = async () => {
     try {
