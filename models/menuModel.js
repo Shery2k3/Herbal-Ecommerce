@@ -5,6 +5,10 @@ const itemSchema = new mongoose.Schema({
         type: String,
         required: false,
     },
+    cloudinary_public_id: {
+        type: String,
+        required: false,
+    },
     title: {
         type: String,
         required: true,

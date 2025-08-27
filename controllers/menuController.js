@@ -1,4 +1,5 @@
 const Menu = require("../models/menuModel");
+const cloudinary = require("../config/cloudinary");
 
 module.exports = {
     getAllCategories: async (req, res, next) => {
@@ -32,7 +33,8 @@ module.exports = {
     },
 
     addItem: async (req, res, next) => {
-        const { category, image, title, description, price, discount_percentage } = req.body;
+        // Image is now a Cloudinary URL thanks to middleware
+        const { category, image, title, description, price, discount_percentage, cloudinary_public_id } = req.body;
         const old_price = price;
         const new_price = old_price - (old_price * (discount_percentage / 100));
         const roundedPrice = Math.floor(new_price / 10) * 10 + 9; // round the new price to the nearest 9
@@ -45,7 +47,15 @@ module.exports = {
                 menu = new Menu({ category, items: [] });
             }
     
-            menu.items.push({ title, image, description, old_price, price: roundedPrice, discount_percentage });
+            menu.items.push({ 
+                title, 
+                image, 
+                cloudinary_public_id,
+                description, 
+                old_price, 
+                price: roundedPrice, 
+                discount_percentage 
+            });
             await menu.save();
             res.status(200).json(menu);
         } catch (error) {
@@ -70,12 +80,34 @@ module.exports = {
         /*
          "price" in req.body is the old price of the item, new price will be calculated after applying the discount. 
         */
-        const { title, image, description, price, discount_percentage } = req.body;
+        // Image is now a Cloudinary URL thanks to middleware
+        const { title, image, description, price, discount_percentage, cloudinary_public_id } = req.body;
         const old_price = price;
         const new_price = old_price - (old_price * (discount_percentage / 100)); 
         const roundedPrice = Math.floor(new_price / 10) * 10 + 9; // round the new price to the nearest 9
     
         try {
+            // Get the current item to check if image is being replaced
+            const currentCategory = await Menu.findById(categoryId);
+            if (!currentCategory) {
+                return res.status(404).json({ message: "Category not found" });
+            }
+            
+            const currentItem = currentCategory.items.id(itemId);
+            if (!currentItem) {
+                return res.status(404).json({ message: "Item not found" });
+            }
+
+            // Delete old image from Cloudinary if a new image is provided and old image exists
+            if (cloudinary_public_id && currentItem.cloudinary_public_id && currentItem.cloudinary_public_id !== cloudinary_public_id) {
+                try {
+                    await cloudinary.uploader.destroy(currentItem.cloudinary_public_id);
+                } catch (cloudinaryError) {
+                    console.error('Error deleting old image from Cloudinary:', cloudinaryError);
+                    // Continue with update even if Cloudinary deletion fails
+                }
+            }
+
             // Use findByIdAndUpdate to update the specific item
             const updatedCategory = await Menu.findByIdAndUpdate(
                 categoryId,
@@ -83,6 +115,7 @@ module.exports = {
                     $set: {
                         "items.$[item].title": title,
                         "items.$[item].image": image,
+                        "items.$[item].cloudinary_public_id": cloudinary_public_id,
                         "items.$[item].description": description,
                         "items.$[item].old_price": old_price,
                         "items.$[item].price": roundedPrice,
@@ -95,10 +128,6 @@ module.exports = {
                 }
             );
     
-            if (!updatedCategory) {
-                return res.status(404).json({ message: "Category not found" });
-            }
-    
             res.status(200).json(updatedCategory);
         } catch (error) {
             console.log(error);
@@ -109,15 +138,32 @@ module.exports = {
         const { categoryId, itemId } = req.params;
 
         try {
+            // Get the current item to delete its image from Cloudinary
+            const currentCategory = await Menu.findById(categoryId);
+            if (!currentCategory) {
+                return res.status(404).json({ message: "Category not found" });
+            }
+            
+            const currentItem = currentCategory.items.id(itemId);
+            if (!currentItem) {
+                return res.status(404).json({ message: "Item not found" });
+            }
+
+            // Delete image from Cloudinary if it exists
+            if (currentItem.cloudinary_public_id) {
+                try {
+                    await cloudinary.uploader.destroy(currentItem.cloudinary_public_id);
+                } catch (cloudinaryError) {
+                    console.error('Error deleting image from Cloudinary:', cloudinaryError);
+                    // Continue with deletion even if Cloudinary deletion fails
+                }
+            }
+
             const updatedCategory = await Menu.findByIdAndUpdate(
                 categoryId,
                 { $pull: { items: { _id: itemId } } },
                 { new: true }
             );
-
-            if (!updatedCategory) {
-                return res.status(404).json({ message: "Category not found" });
-            }
 
             res.status(200).json(updatedCategory);
         } catch (error) {

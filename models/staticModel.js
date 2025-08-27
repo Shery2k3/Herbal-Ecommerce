@@ -5,6 +5,10 @@ const imageSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    cloudinary_public_id: {
+        type: String,
+        required: false,
+    },
     label: {
         type: String,
         required: true

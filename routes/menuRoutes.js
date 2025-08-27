@@ -2,13 +2,14 @@ const express = require("express");
 const router = express.Router();
 const menuController = require("../controllers/menuController");
 const Menu = require("../models/menuModel");
+const { uploadToCloudinary } = require("../middleware/cloudinary");
 
 router.get("/categories", menuController.getAllCategories);
 router.get("/all", menuController.getAll);
 router.get("/:category", menuController.getItemByCategory);
-router.post("/create", menuController.addItem);
+router.post("/create", uploadToCloudinary, menuController.addItem);
 router.post("/createcategory", menuController.createCategory);
-router.put("/edit/:categoryId/:itemId", menuController.editItem);
+router.put("/edit/:categoryId/:itemId", uploadToCloudinary, menuController.editItem);
 router.delete("/delete/:categoryId/:itemId", menuController.deleteItem);
 
 //? Custom Script
