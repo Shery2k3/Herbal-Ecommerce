@@ -3,22 +3,27 @@ const mongoose = require("mongoose");
 const timeSchema = new mongoose.Schema({
     branch: {
         type: String,
-        required: true
+        required: true,
     },
-    
+
     openingTime: {
         type: String,
-        required: true
+        required: true,
     },
-    
+
     closingTime: {
         type: String,
-        required: true
+        required: true,
     },
 
     email: {
         type: String,
-        required: true
+        required: true,
+    },
+    city: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "City",
+        required: true,
     },
 });
 

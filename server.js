@@ -12,6 +12,7 @@ const authRoutes = require("./routes/authRoutes");
 const branchRoutes = require("./routes/branchRoutes");
 const messageRoutes = require("./routes/messageRoutes");
 const menuRoutesv2 = require("./routes/v2/menuRoutes");
+const cityRoutes = require("./routes/v2/cityRoutes");
 const ora = require("ora");
 
 const port = process.env.PORT || 3000;
@@ -38,6 +39,7 @@ app.use(`/time`, branchRoutes);
 app.use(`/branch`, branchRoutes);
 app.use(`/message`, messageRoutes);
 app.use(`/v2/menu`, menuRoutesv2);
+app.use(`/v2/city`, cityRoutes);
 app.use("/", (req, res) => {
     res.send("Welcome to the API");
 });

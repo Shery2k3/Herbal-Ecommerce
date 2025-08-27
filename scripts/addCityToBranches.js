@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const Menu = require("../models/menuModel"); // Ensure this path is correct
+const Branches = require("../models/branchModel"); // Ensure this path is correct
 
 const MONGO_URI =
     "mongodb+srv://shahryar2k3:shahryar2k3@hod-test.flkqhwx.mongodb.net/?retryWrites=true&w=majority&appName=HoD-test";
@@ -12,7 +12,7 @@ const migrateData = async () => {
         );
 
         // A single, powerful command to update all categories
-        const result = await Menu.updateMany(
+        const result = await Branches.updateMany(
             { city: { $exists: false } }, // The Query: Find all categories that don't have a city
             { $set: { city: "68aef8dd37ddd06e6a3c5775" } } // The Update: Set the city field to "Karachi"
         );
