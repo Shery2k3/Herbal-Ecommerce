@@ -9,7 +9,7 @@ const getAllCategoriesByCity = async (req, res) => {
 
         // Make the query case-insensitive
         const categories = await Menu.find({
-            city: new RegExp(`^${city}$`, "i"),
+            city: city,
         });
 
         if (categories.length === 0) {
@@ -32,7 +32,7 @@ const getCategoryByNameAndCity = async (req, res) => {
         const { city, categoryName } = req.params;
 
         const category = await Menu.findOne({
-            city: new RegExp(`^${city}$`, "i"),
+            city: city,
             category: new RegExp(`^${categoryName}$`, "i"),
         });
 
@@ -58,7 +58,7 @@ const getAllItemsByCity = async (req, res) => {
         // This is an aggregation pipeline. It's a powerful way to process data.
         const items = await Menu.aggregate([
             // Stage 1: Match all categories for the specified city (case-insensitive)
-            { $match: { city: new RegExp(`^${city}$`, "i") } },
+            { $match: { city: city } },
 
             // Stage 2: Deconstruct the items array field from the input documents to output a document for each element.
             { $unwind: "$items" },
