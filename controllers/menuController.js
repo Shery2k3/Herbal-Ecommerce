@@ -54,7 +54,7 @@ module.exports = {
                 description, 
                 old_price, 
                 price: roundedPrice, 
-                discount_percentage 
+                discount_percentage
             });
             await menu.save();
             res.status(200).json(menu);
@@ -172,7 +172,7 @@ module.exports = {
         }
     },
     createCategory: async (req, res) => {
-        const { category, order } = req.body;
+        const { category, order, city } = req.body;
     
         try {
             let newOrder;
@@ -187,7 +187,8 @@ module.exports = {
             const newCategory = new Menu({
                 category,
                 items: [],
-                order: newOrder
+                order: newOrder,
+                city
             });
     
             const savedCategory = await newCategory.save();
