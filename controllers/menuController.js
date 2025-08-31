@@ -37,7 +37,6 @@ module.exports = {
         const { category, image, title, description, price, discount_percentage, cloudinary_public_id } = req.body;
         const old_price = price;
         const new_price = old_price - (old_price * (discount_percentage / 100));
-        const roundedPrice = Math.floor(new_price / 10) * 10 + 9; // round the new price to the nearest 9
 
         try {
             let menu = await Menu.findOne({ category });
@@ -53,7 +52,7 @@ module.exports = {
                 cloudinary_public_id,
                 description, 
                 old_price, 
-                price: roundedPrice, 
+                price: new_price, 
                 discount_percentage
             });
             await menu.save();
@@ -84,7 +83,6 @@ module.exports = {
         const { title, image, description, price, discount_percentage, cloudinary_public_id } = req.body;
         const old_price = price;
         const new_price = old_price - (old_price * (discount_percentage / 100)); 
-        const roundedPrice = Math.floor(new_price / 10) * 10 + 9; // round the new price to the nearest 9
     
         try {
             // Get the current item to check if image is being replaced
@@ -118,7 +116,7 @@ module.exports = {
                         "items.$[item].cloudinary_public_id": cloudinary_public_id,
                         "items.$[item].description": description,
                         "items.$[item].old_price": old_price,
-                        "items.$[item].price": roundedPrice,
+                        "items.$[item].price": new_price,
                         "items.$[item].discount_percentage": discount_percentage,
                     },
                 },
