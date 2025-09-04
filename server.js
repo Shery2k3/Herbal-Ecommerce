@@ -15,6 +15,7 @@ const menuRoutesv2 = require("./routes/v2/menuRoutes");
 const cityRoutes = require("./routes/v2/cityRoutes");
 const ora = require("ora");
 const { errorHandler, notFound } = require("./middleware/error");
+const { isAdmin } = require("./middleware/auth");
 
 const port = process.env.PORT || 3000;
 
@@ -43,6 +44,11 @@ app.use(`/v2/menu`, menuRoutesv2);
 app.use(`/v2/city`, cityRoutes);
 app.use("/", (req, res) => {
     res.send("Welcome to the API");
+});
+
+//* Hacky API for FE
+app.use("/admin/profile", isAdmin, (req, res) => {
+    res.json({ message: "You are an admin" });
 });
 
 //* Not found
