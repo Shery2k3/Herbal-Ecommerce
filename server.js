@@ -14,6 +14,7 @@ const messageRoutes = require("./routes/messageRoutes");
 const menuRoutesv2 = require("./routes/v2/menuRoutes");
 const cityRoutes = require("./routes/v2/cityRoutes");
 const ora = require("ora");
+const { errorHandler, notFound } = require("./middleware/error");
 
 const port = process.env.PORT || 3000;
 
@@ -44,15 +45,11 @@ app.use("/", (req, res) => {
     res.send("Welcome to the API");
 });
 
+//* Not found
+app.use(notFound);
+
 //* Error Handler
-app.use((err, req, res, next) => {
-    console.error(err);
-
-    const statusCode = err.statusCode || 500;
-    const message = err.message || "Internal Server Error";
-
-    res.status(statusCode).json({ error: message });
-});
+app.use(errorHandler);
 
 const startServer = async () => {
     const spinner = ora({
