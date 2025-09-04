@@ -6,27 +6,34 @@ const {
     uploadToCloudinary,
     multerUpload,
 } = require("../middleware/cloudinary");
+const { isAdmin } = require("../middleware/auth");
 
 router.get("/categories", menuController.getAllCategories);
 router.get("/all", menuController.getAll);
 router.get("/:category", menuController.getItemByCategory);
 router.post(
     "/create",
+    isAdmin,
     multerUpload.single("image"),
     uploadToCloudinary,
     menuController.addItem
 );
-router.post("/createcategory", menuController.createCategory);
+router.post("/createcategory", isAdmin, menuController.createCategory);
 router.put(
     "/edit/:categoryId/:itemId",
+    isAdmin,
     multerUpload.single("image"),
     uploadToCloudinary,
     menuController.editItem
 );
-router.delete("/delete/:categoryId/:itemId", menuController.deleteItem);
+router.delete(
+    "/delete/:categoryId/:itemId",
+    isAdmin,
+    menuController.deleteItem
+);
 
 //? Custom Script
-router.put("/updateItems", async (req, res) => {
+router.put("/updateItems", isAdmin, async (req, res) => {
     try {
         const menus = await Menu.find({});
 

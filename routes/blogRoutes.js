@@ -5,11 +5,24 @@ const {
     uploadToCloudinary,
     multerUpload,
 } = require("../middleware/cloudinary");
+const { isAdmin } = require("../middleware/auth");
 
 router.get("/blogs", blogController.getAllBlogs);
 router.get("/:id", blogController.getBlogById);
-router.post("/create", multerUpload.single("image"), uploadToCloudinary, blogController.createBlog);
-router.put("/edit/:id", multerUpload.single("image"), uploadToCloudinary, blogController.editBlog);
-router.delete("/delete/:id", blogController.deleteBlog);
+router.post(
+    "/create",
+    isAdmin,
+    multerUpload.single("image"),
+    uploadToCloudinary,
+    blogController.createBlog
+);
+router.put(
+    "/edit/:id",
+    isAdmin,
+    multerUpload.single("image"),
+    uploadToCloudinary,
+    blogController.editBlog
+);
+router.delete("/delete/:id", isAdmin, blogController.deleteBlog);
 
 module.exports = router;
