@@ -22,7 +22,7 @@ const uploadToCloudinary = async (req, res, next) => {
         // If there's an image to upload, upload it
         if (imageToUpload) {
             const uploadResult = await cloudinary.uploader.upload(imageToUpload, {
-                folder: 'HoD-test',
+                folder: 'Herbal Ecommerce',
                 quality: 'auto',
                 fetch_format: 'auto'
             });
