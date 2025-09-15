@@ -10,12 +10,12 @@ const {
 // e.g., /v2/menu/categories/Karachi/Deals
 router.get('/categories/:city/:categoryName', getCategoryByNameAndCity);
 
-// Route to get all categories for a city
-// e.g., /v2/categories/menu/Karachi
-router.get('/categories/:city', getAllCategoriesByCity);
+// Route to get all categories for a city (or all categories if no city specified)
+// e.g., /v2/menu/categories/Karachi or /v2/menu/categories
+router.get('/categories/:city?', getAllCategoriesByCity);
 
-// Route to get a flat list of all items for a city
-// e.g., /v2/menu/items/Karachi
-router.get('/items/:city', getAllItemsByCity);
+// Route to get a flat list of all items for a city (or all items if no city specified)
+// e.g., /v2/menu/items/Karachi or /v2/menu/items
+router.get('/items/:city?', getAllItemsByCity);
 
 module.exports = router;

@@ -1,21 +1,31 @@
 const Menu = require("../../models/menuModel.js"); // Adjust path to your model
+const mongoose = require("mongoose");
 
-// @desc    Get all menu categories for a specific city
-// @route   GET /api/v2/menu/categories/:city
+// @desc    Get all menu categories for a specific city or all categories if no city specified
+// @route   GET /api/v2/menu/categories/:city? (city is optional)
 // @access  Public
 const getAllCategoriesByCity = async (req, res) => {
     try {
         const { city } = req.params;
 
-        // Make the query case-insensitive
-        const categories = await Menu.find({
-            city: city,
-        });
+        // Build the query - if city is provided, filter by city
+        let query = {};
+        if (city) {
+            // Convert string to ObjectId if it's a valid ObjectId
+            if (mongoose.Types.ObjectId.isValid(city)) {
+                query.city = new mongoose.Types.ObjectId(city);
+            } else {
+                query.city = city; // Keep as string for backward compatibility
+            }
+        }
+        
+        const categories = await Menu.find(query);
 
         if (categories.length === 0) {
-            return res.status(404).json({
-                message: `No menu categories found for city: ${city}`,
-            });
+            const message = city 
+                ? `No menu categories found for city: ${city}`
+                : "No menu categories found";
+            return res.status(404).json({ message });
         }
 
         res.status(200).json(categories);
@@ -31,8 +41,14 @@ const getCategoryByNameAndCity = async (req, res) => {
     try {
         const { city, categoryName } = req.params;
 
+        // Convert city to ObjectId if it's a valid ObjectId
+        let cityQuery = city;
+        if (mongoose.Types.ObjectId.isValid(city)) {
+            cityQuery = new mongoose.Types.ObjectId(city);
+        }
+
         const category = await Menu.findOne({
-            city: city,
+            city: cityQuery,
             category: new RegExp(`^${categoryName}$`, "i"),
         });
 
@@ -48,29 +64,40 @@ const getCategoryByNameAndCity = async (req, res) => {
     }
 };
 
-// @desc    Get all items for a specific city
-// @route   GET /api/v2/menu/items/:city
+// @desc    Get all items for a specific city or all items if no city specified
+// @route   GET /api/v2/menu/items/:city? (city is optional)
 // @access  Public
 const getAllItemsByCity = async (req, res) => {
     try {
         const { city } = req.params;
 
-        // This is an aggregation pipeline. It's a powerful way to process data.
-        const items = await Menu.aggregate([
-            // Stage 1: Match all categories for the specified city (case-insensitive)
-            { $match: { city: city } },
+        // Build the aggregation pipeline
+        const pipeline = [];
 
-            // Stage 2: Deconstruct the items array field from the input documents to output a document for each element.
-            { $unwind: "$items" },
+        // Stage 1: Match categories - if city is provided, filter by city
+        if (city) {
+            // Convert string to ObjectId if it's a valid ObjectId
+            let cityQuery = city;
+            if (mongoose.Types.ObjectId.isValid(city)) {
+                cityQuery = new mongoose.Types.ObjectId(city);
+            }
+            pipeline.push({ $match: { city: cityQuery } });
+        }
 
-            // Stage 3: Replace the document with just the item sub-document.
-            { $replaceRoot: { newRoot: "$items" } },
-        ]);
+        // Stage 2: Deconstruct the items array field from the input documents to output a document for each element.
+        pipeline.push({ $unwind: "$items" });
+
+        // Stage 3: Replace the document with just the item sub-document.
+        pipeline.push({ $replaceRoot: { newRoot: "$items" } });
+
+        // Execute the aggregation pipeline
+        const items = await Menu.aggregate(pipeline);
 
         if (items.length === 0) {
-            return res
-                .status(404)
-                .json({ message: `No items found for city: ${city}` });
+            const message = city 
+                ? `No items found for city: ${city}` 
+                : "No items found in the menu";
+            return res.status(404).json({ message });
         }
 
         res.status(200).json(items);
