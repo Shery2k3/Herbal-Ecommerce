@@ -1,6 +1,7 @@
 const City = require("../../models/cityModel");
 const Branch = require("../../models/branchModel");
 const Delivery = require("../../models/deliveryModel");
+const { default: mongoose } = require("mongoose");
 
 // Get all cities
 exports.getAllCities = async (req, res) => {
@@ -76,8 +77,14 @@ exports.getBranchesWithAreasByCityId = async (req, res) => {
     try {
         const cityId = req.params.id;
 
+        let branchQuery = {};
+
+        if (cityId) {
+            branchQuery.city = cityId;
+        }
+
         // Find all branches for the given cityId
-        const branches = await Branch.find({ city: cityId });
+        const branches = await Branch.find(branchQuery);
 
         if (!branches || branches.length === 0) {
             return res.status(404).json({ message: "No branches found for this city" });
