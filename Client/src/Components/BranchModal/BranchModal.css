@@ -1,0 +1,23 @@
+.branch-modal-heading {
+  font-family: var(--font-title);
+  color: var(--background);
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin-top: 10px;
+}
+
+.area-modal-close-button {
+  display: block;
+  width: 100%;
+  font-size: 16px;
+  height: 40px;
+  background-color: var(--accent);
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.area-modal-close-button:hover {
+  background-color: var(--complementary);
+}

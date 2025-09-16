@@ -1,0 +1,101 @@
+.user-form {
+    width: 570px;
+    border-radius: 20px;
+    padding: 30px;
+    background: rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(50px);
+}
+
+.item {
+    width: 510px;
+}
+
+.sub-item {
+    width: 250px;
+}
+
+
+@media only screen and (max-width: 1000px) {
+    .user-form {
+        width: 95vw;
+        margin-bottom: 1.5rem;
+    }
+
+    .item, .sub-item {
+        width: 43vw;
+    }
+    
+    
+}
+
+  .ant-btn-primary {
+    height: 50px !important;
+    font-weight: 700 !important;
+    margin-top: 15px;
+    color: var(--background) !important;
+    background-color: var(--accent) !important;
+    box-shadow: none !important;
+    transition: background-color 400ms ease;
+}
+
+.ant-btn-primary:hover {
+    background-color: var(--complementary) !important;
+}
+
+
+
+.ant-radio-group-solid :where(.css-dev-only-do-not-override-agmknv).ant-radio-button-wrapper-checked:not(.ant-radio-button-wrapper-disabled) {
+    color: #fff;
+    background: var(--accent);
+    border-color: var(--accent);
+}
+
+.ant-radio-group-solid :where(.css-dev-only-do-not-override-agmknv).ant-radio-button-wrapper-checked:not(.ant-radio-button-wrapper-disabled):hover {
+    color: #fff;
+    background: var(--accent);
+    border-color: var(--accent);
+}
+
+.ant-radio-group-solid :where(.css-dev-only-do-not-override-agmknv).ant-radio-button-wrapper-checked:not(.ant-radio-button-wrapper-disabled) {
+    color: var(--primary);
+    background: var(--accent);
+    border-color: var(--accent);
+}
+
+:where(.css-dev-only-do-not-override-agmknv).ant-radio-button-wrapper:hover {
+    position: relative;
+    color: var(--accent);
+}
+
+
+.ant-radio-button-wrapper-disabled {
+    color: var(--primary);
+}
+
+.ant-radio-button-wrapper-disabled:hover {
+    color: var(--primary);
+}
+
+
+
+@media only screen and (max-width: 675px) {
+    .item, .sub-item {
+        width: 85vw;
+    }
+
+    .ant-space-horizontal {
+        flex-direction: column !important;
+      }
+    
+}
+
+@media only screen and (max-width: 564px) {
+    .item, .sub-item {
+        width: 82.5vw;
+    }
+
+    .ant-space-horizontal {
+        flex-direction: column !important;
+      }
+    
+}

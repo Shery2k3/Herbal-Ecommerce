@@ -1,0 +1,23 @@
+.Success-cart-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 375px;
+    padding: 15px;
+    border-bottom: 2px solid rgb(187, 187, 187);
+}
+
+.Success-cart-item h3 {
+    width: 250px;
+    font-size: 1rem;
+    font-family: 'Jost', sans-serif;
+    ;
+}
+
+
+@media only screen and (max-width: 1000px) {
+    .Success-cart-item {
+        width: 85vw;
+        border-bottom: 2px solid rgb(187, 187, 187);
+    }
+  }

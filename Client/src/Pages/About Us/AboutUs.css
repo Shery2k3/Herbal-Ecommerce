@@ -1,0 +1,66 @@
+section {
+    margin: 20px 20px 50px 20px;
+}
+
+section>h2 {
+    font-size: 2.5rem;
+    font-family: var(--font-accent);
+    font-weight: 800;
+    margin-bottom: 1rem;
+}
+
+section>p {
+    font-size: 1.2rem;
+    font-family: var(--font-light);
+    text-align: justify;
+}
+
+.dumplings-details {
+    display: flex;
+    flex-direction: row-reverse;
+}
+
+.dumplings-details p {
+    font-size: 1.2rem;
+    font-family: var(--font-cta);
+    text-align: justify;
+}
+
+.dumplings-image {
+    margin: 0 0 5px 15px;
+    width: 30vw;
+    height: auto;
+    object-fit: cover;
+}
+
+.branches {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+@media only screen and (max-width: 1000px) {
+    .dumplings-details {
+        display: block;
+    }
+    .dumplings-image {
+        margin: 0 0 5px 0;
+        width: 100%;
+    }
+}
+
+@media only screen and (max-width: 776px) {
+    .branches {
+        flex-direction: column;
+        align-items: center;
+    }
+}
+
+@media only screen and (max-width: 568px) {
+    section>h2 {
+        text-align: center;
+    }
+
+    section>p, .dumplings-details p  {
+        text-align: center;
+    }
+}

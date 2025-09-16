@@ -1,0 +1,75 @@
+.carousel {
+  max-width: 100%;
+  overflow: hidden;
+  z-index: 2;
+}
+
+.carousel img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.food-menu {
+  margin-top: 2rem;
+  margin-bottom: 4rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.catagory-section {
+  width: 95vw;
+}
+
+.catagory-section > h2 {
+  font-family: var(--font-accent);
+}
+
+.catagory {
+  display: flex;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  margin: 1rem 0 2.75rem 0;
+}
+
+.tab-menu {
+  position: sticky !important;
+  top: 0px;
+  padding: 0 20px;
+  background: var(--accent);
+  border-radius: 0px 0px 12px 12px;
+  overflow-x: auto !important;
+  white-space: nowrap;
+  display: flex;
+  flex-wrap: nowrap;
+  z-index: 2;
+}
+
+.ant-tabs .ant-tabs-tab-btn {
+  font-size: 1.2rem;
+  letter-spacing: 0.5px;
+  font-family: var(--font-accent);
+}
+
+.card-item {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+}
+
+.card-item.loaded {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+
+@media only screen and (max-width: 569px) {
+  .catagory {
+    justify-content: center;
+  }
+
+  .catagory-section > h2 {
+    text-align: center;
+  }
+}

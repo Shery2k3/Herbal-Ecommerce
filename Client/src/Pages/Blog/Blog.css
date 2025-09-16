@@ -1,0 +1,82 @@
+.blogs-container {
+  width: 95%;
+  margin: 0 auto; 
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.blog-header {
+  text-align: center;
+  font-size: 3rem;
+  letter-spacing: 1.5px;
+  font-family: var(--font-accent);
+  font-weight: 600;
+  margin: 2rem 0;
+}
+
+.load-more-button {
+  cursor: pointer;
+  font-size: 1rem;
+  padding: 5px 15px;
+  display: block;
+  margin: 0 auto;
+  margin-bottom: 100px;
+}
+
+.blog-item {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.1s ease-in-out, transform 0.2s ease-in-out;
+}
+
+.blog-item.loaded {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.custom-pagination .ant-pagination-item {
+  background-color: #F5F5F5;
+  border-color: #F5F5F5;
+}
+
+.custom-pagination .ant-pagination-item a {
+  color: #0C0002;
+}
+
+.custom-pagination .ant-pagination-item:hover,
+.custom-pagination .ant-pagination-item-active {
+  background-color: #8D191C;
+  border-color: #8D191C;
+}
+
+.custom-pagination .ant-pagination-item:hover a,
+.custom-pagination .ant-pagination-item-active a {
+  color: #F5F5F5;
+}
+
+.loading-container .ant-spin-dot-item {
+  background-color: #f30128 !important;
+}
+
+.loading-container .ant-spin-blur {
+  background: transparent !important;
+}
+
+:where(.css-dev-only-do-not-override-1b0bdye).ant-spin-nested-loading .ant-spin-container::after{
+  background: #0C0002;
+}
+
+.ant-pagination-item-link:not(.ant-pagination-disabled) {
+  color: white;
+}
+
+.ant-pagination-prev .ant-pagination-item-link:not(.ant-pagination-disabled),
+.ant-pagination-next .ant-pagination-item-link:not(.ant-pagination-disabled) {
+  color: white;
+}
+
+.ant-pagination-prev.ant-pagination-disabled,
+.ant-pagination-next.ant-pagination-disabled {
+  visibility: hidden;
+}

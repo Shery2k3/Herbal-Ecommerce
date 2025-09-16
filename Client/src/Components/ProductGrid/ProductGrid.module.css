@@ -1,0 +1,26 @@
+.grid {
+  padding: 15px 45px;
+  display: grid;
+  width: 100%;
+  grid-template-columns: repeat(3, 1fr); /* Will make this repeat(4, 1fr) if many products*/
+  gap: 30px 15px;
+}
+
+@media (max-width: 1024px) {
+  .grid {
+    padding: 15px 20px;
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 580px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 430px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}

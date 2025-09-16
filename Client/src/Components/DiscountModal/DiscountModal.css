@@ -1,0 +1,42 @@
+.discount-modal-container {
+    background-color: rgba(0, 0, 0, 0.883);
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 999;
+    opacity: 1;
+    transition: opacity 0.5s ease;
+}
+
+.discount-modal-container.inactive {
+    opacity: 0;
+}
+
+.modal-closer {
+    position: absolute;
+    top: 7px;
+    right: 8px;
+    color: white;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.discount-modal {
+    position: relative;
+    transform: translateY(0);
+    transition: transform 0.5s ease;
+}
+
+.discount-modal-container.inactive .discount-modal {
+    transform: translateY(100%);
+}
+
+.discount-modal img {
+    width: 650px;
+    max-width: 95vw;
+}

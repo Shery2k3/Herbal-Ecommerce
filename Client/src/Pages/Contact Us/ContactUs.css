@@ -1,0 +1,28 @@
+.contact-page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  margin: 60px 0;
+  /* background: linear-gradient(
+    135deg,
+    var(--background) 0%,
+    var(--secondary-background) 100%
+  ); */
+}
+.contact-form-section {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 4rem 2rem;
+}
+
+@media only screen and (max-width: 768px) {
+  .contact-page {
+    min-height: auto;
+  }
+
+  .contact-form-section {
+    padding: 1rem;
+  }
+}

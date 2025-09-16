@@ -1,0 +1,90 @@
+.page-404-section {
+    padding: 75px 0;
+    width: 100vw;
+    height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    opacity: 0; /* Start hidden */
+    transform: translateY(20px); /* Start slightly below */
+    min-height: 70vh;
+    justify-content: center;
+}
+
+.page-404-section.fade-up {
+    animation: fadeUp 0.4s ease-out forwards;
+}
+
+.page-404-section .error-code {
+    font-family: var(--font-accent);
+    font-size: 12rem;
+    color: var(--accent);
+    margin-bottom: 20px;
+    text-shadow: 0 0 20px rgba(243, 1, 40, 0.3);
+}
+
+.page-404-section .error-heading {
+    font-family: var(--font-title);
+    font-size: 2.5rem;
+    color: var(--primary);
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.page-404-section .accent {
+    color: var(--accent);
+    font-family: var(--font-accent);
+}
+
+.page-404-section .error-info {
+    width: 650px;
+    text-align: center;
+    margin-bottom: 28px;
+    font-family: var(--font-light);
+    color: var(--primary);
+    line-height: 1.6;
+}
+
+.page-404-section .home-button {
+    font-family: var(--font-accent);
+    letter-spacing: 1px;
+    font-size: 28px;
+    font-weight: 400;
+    text-decoration: none;
+    color: var(--primary);
+    background-color: var(--accent);
+    padding: 8px 12px;
+    border: 2px solid var(--accent);
+    transition: color 0.4s ease, background-color 0.4s ease;
+    display: inline-block;
+}
+
+.page-404-section .home-button:hover {
+    color: var(--accent);
+    background-color: rgba(0, 0, 0, 0);
+}
+
+@keyframes fadeUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@media only screen and (max-width: 676px) {
+    .page-404-section .error-info {
+        width: 80vw;
+    }
+    
+    .page-404-section .error-code {
+        font-size: 6rem;
+    }
+    
+    .page-404-section .error-heading {
+        font-size: 2rem;
+    }
+    
+    .page-404-section .home-button {
+        font-size: 24px;
+    }
+}

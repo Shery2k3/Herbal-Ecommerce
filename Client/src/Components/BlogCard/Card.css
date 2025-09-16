@@ -1,0 +1,30 @@
+.blog-card {
+  width: 300px; /* Set the fixed width of the card */
+  background-color: #f8f8f8; /* Set background color for dark theme */
+  border-radius: 10px; /* Optional: Add rounded corners */
+  overflow: hidden; /* Hide any content that overflows the card */
+  margin: 10px 10px;
+}
+
+.blog-card img {
+  width: 100%; /* Set the width of the image to fill its container */
+  height: 169px;  /* Set the fixed height of the image */
+  object-fit: cover; /* Ensure the image covers the entire container */
+}
+
+.blog-details {
+  padding: 20px; /* Add padding inside the card */
+  color: #000000; /* Set text color to white for dark theme */
+}
+
+.blog-title {
+  font-size: 1.5rem; /* Set font size for title */
+  margin-bottom: 10px; /* Add space below title */
+}
+
+.description {
+  overflow: hidden; /* Hide overflowing text */
+  display: -webkit-box;
+  -webkit-line-clamp: 3; /* Show only first 3 lines of text */
+  -webkit-box-orient: vertical;
+}

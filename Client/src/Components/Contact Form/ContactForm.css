@@ -1,0 +1,135 @@
+.contact-form-container {
+    width: 100%;
+    max-width: 500px;
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 16px;
+    padding: 2.5rem;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+    opacity: 0; /* Start hidden */
+    transform: translateY(20px); /* Start slightly below */
+}
+
+.contact-form-container.fade-up {
+    animation: fadeUp 0.4s ease-out forwards;
+}
+
+@keyframes fadeUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.form-header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.form-header h2 {
+    font-family: var(--font-accent);
+    font-size: 2rem;
+    font-weight: 400;
+    color: var(--primary);
+    margin-bottom: 0.5rem;
+    letter-spacing: 1px;
+}
+
+.form-header p {
+    font-family: var(--font-light);
+    color: rgba(0, 0, 0, 0.7);
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
+
+.contact-form {
+    width: 100%;
+}
+
+.contact-form .ant-form-item-label > label {
+    font-family: var(--font-light);
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: #000000 !important;
+    margin-bottom: 0.5rem;
+}
+
+.contact-form .ant-input,
+.contact-form .ant-input:focus,
+.contact-form .ant-input-focused {
+    background: rgba(255, 255, 255, 0.05) !important;
+    border: 1px solid rgba(0, 0, 0, 0.2) !important;
+    color: #000000 !important;
+    font-family: var(--font-light);
+    transition: all 0.3s ease;
+}
+
+.contact-form .ant-input:hover {
+    border-color: rgba(0, 0, 0, 0.4) !important;
+    background: rgba(209, 209, 209, 0.08) !important;
+}
+
+.contact-form .ant-input:focus,
+.contact-form .ant-input-focused {
+    border-color: var(--accent) !important;
+    box-shadow: 0 0 0 2px rgba(243, 1, 40, 0.2) !important;
+    background: rgba(255, 255, 255, 0.08) !important;
+}
+
+.contact-form .ant-input::placeholder {
+    color: rgba(29, 29, 29, 0.5) !important;
+    font-family: var(--font-light);
+}
+
+.submit-button-container {
+    margin-top: 1.5rem;
+    margin-bottom: 0;
+}
+
+.submit-button {
+    color: var(--background) !important;
+    background: linear-gradient(135deg, var(--accent) 0%, var(--accent) 100%) !important;
+    border: none !important;
+    font-family: var(--font-light) !important;
+    font-weight: 500 !important;
+    font-size: 1rem !important;
+    height: 48px !important;
+    border-radius: 8px !important;
+    transition: all 0.3s ease !important;
+    box-shadow: 0 4px 15px rgba(30, 96, 0, 0.3) !important;
+}
+
+.submit-button:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 6px 20px rgba(1, 243, 41, 0.4) !important;
+    background: linear-gradient(135deg, var(--accent) 0%, var(--accent) 100%) !important;
+}
+
+.submit-button:active {
+    transform: translateY(0) !important;
+}
+
+.submit-button:disabled {
+    opacity: 0.7 !important;
+    transform: none !important;
+    cursor: not-allowed !important;
+}
+
+@media only screen and (max-width: 768px) {
+    .contact-form-container {
+        width: 100%;
+        max-width: none;
+        margin: 0;
+        padding: 1.5rem;
+        border-radius: 12px;
+    }
+    
+    .form-header h2 {
+        font-size: 1.75rem;
+    }
+    
+    .form-header p {
+        font-size: 0.9rem;
+    }
+}
