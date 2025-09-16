@@ -77,9 +77,11 @@ exports.getBranchesWithAreasByCityId = async (req, res) => {
     try {
         const cityId = req.params.id;
 
+        console.log("Fetching branches and areas for cityId:", cityId);
+
         let branchQuery = {};
 
-        if (cityId) {
+        if (cityId && mongoose.Types.ObjectId.isValid(cityId)) {
             branchQuery.city = cityId;
         }
 

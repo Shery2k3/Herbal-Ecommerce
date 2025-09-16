@@ -5,9 +5,6 @@ const cityController = require("../../controllers/v2/cityController");
 // Get all cities
 router.get('/all', cityController.getAllCities);
 
-// Get city by ID
-router.get('/:id', cityController.getCityById);
-
 // Create a new city
 router.post('/create', cityController.createCity);
 
@@ -18,6 +15,9 @@ router.put('/edit/:id', cityController.updateCity);
 router.delete('/delete/:id', cityController.deleteCity);
 
 // Get branches with areas by city ID
-router.get('/areas/:id', cityController.getBranchesWithAreasByCityId);
+router.get('/areas/:id?', cityController.getBranchesWithAreasByCityId);
+
+// Get city by ID
+router.get('/:id', cityController.getCityById);
 
 module.exports = router;
