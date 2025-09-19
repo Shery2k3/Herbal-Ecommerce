@@ -3,7 +3,7 @@
 }
 
 nav {
-  position: static;
+  position: fixed;
   background: #ffffff7e;
   backdrop-filter: blur(15px);
   box-shadow: 4px 4px 10px #00000029;
@@ -95,9 +95,6 @@ nav ul {
 }
 
 @media only screen and (max-width: 767px) {
-  nav {
-    padding: 5px 20px;
-  }
   nav ul {
     transform: translateX(-100%);
     background: var(--secondary-background);
@@ -117,8 +114,13 @@ nav ul {
   .nav-item {
     margin: 25px 0;
     font-size: 1.1rem;
-    color: var(--primary);
+    color: var(--background);
     list-style: none;
+  }
+
+  .link {
+    color: var(--background);
+    font-size: 1.3rem;
   }
 
   .nav-items {

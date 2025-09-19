@@ -4,7 +4,7 @@
 
 :root {
   --primary: #001e00;
-  --accent: #29A125;
+  --accent: #29a125;
   --complementary: #6bad24;
   --secondary-background: #10430e;
   --background: #ffffff;
@@ -56,6 +56,7 @@ img {
 body {
   overflow-x: hidden !important;
   background: var(--background);
+  padding-top: 60px;
 }
 
 h2 {
