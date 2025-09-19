@@ -36,12 +36,22 @@ const Navbar = () => {
 
     document.addEventListener("click", handleOutsideClick);
 
-    return () => {
-      document.removeEventListener("click", handleOutsideClick);
-    };
-  }, []);
+  return () => {
+    document.removeEventListener("click", handleOutsideClick);
+  };
+}, []);
 
-  return (
+  useEffect(() => {
+    if (isActive) {
+      document.body.classList.add('no-scroll');
+    } else {
+      document.body.classList.remove('no-scroll');
+    }
+
+    return () => {
+      document.body.classList.remove('no-scroll');
+    };
+  }, [isActive]);  return (
     <>
       <nav>
         <Link

@@ -19,7 +19,7 @@ import "./Footer.css";
 
 const Footer = () => {
   const emailAddress = "herbiya0504@gmail.com";
-  const phoneNumber = "+923312909968";
+  const phoneNumber = "+923112552445";
 
   const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 
@@ -112,7 +112,7 @@ const Footer = () => {
                 className="footer-link"
                 onClick={() => handleContactClick("phone")}
               >
-                <FontAwesomeIcon icon={faPhone} /> +92 3312909968
+                <FontAwesomeIcon icon={faPhone} /> 0311-2552445
               </p>
             </span>
           </div>
